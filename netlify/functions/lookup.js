@@ -11,15 +11,16 @@ exports.handler = async function(event, context) {
         console.log("Resolved addresses:", addresses); // Log resolved addresses for debugging
 
         let serviceProvider = 'Unknown';
-        // Generalized matching logic
+        // Generalized matching logic to handle various mail providers
         for (const record of addresses) {
-            if (record.exchange.endsWith('google.com.')) {
+            const exchange = record.exchange.toLowerCase();
+            if (exchange.endsWith('google.com.') || exchange.endsWith('googlemail.com.')) {
                 serviceProvider = 'Google';
                 break;
-            } else if (record.exchange.endsWith('outlook.com.')) {
+            } else if (exchange.includes('protection.outlook.com')) {
                 serviceProvider = 'Outlook';
                 break;
-            } else if (record.exchange.endsWith('apple.com')) {
+            } else if (exchange.endsWith('apple.com.')) {
                 serviceProvider = 'Apple';
                 break;
             }
@@ -28,7 +29,7 @@ exports.handler = async function(event, context) {
 
         return {
             statusCode: 200,
-            body: JSON.stringify({ serviceProvider, resolvedMX: addresses }),
+            body: JSON.stringify({ serviceProvider }),
             headers: {
                 'Content-Type': 'application/json',
             },
