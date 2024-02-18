@@ -14,24 +14,24 @@ const mailServices = {
 };
 
 exports.handler = async function(event, context) {
-  if (event.httpMethod !== 'POST') {
-    return { statusCode: 405, body: 'Method Not Allowed' };
-  }
-
   try {
     const { domain } = JSON.parse(event.body);
     const addresses = await dns.resolveMx(domain);
+    console.log("Resolved addresses:", addresses); // Log resolved addresses for debugging
     const mxRecord = addresses.sort((a, b) => a.priority - b.priority)[0].exchange;
     const serviceProvider = mailServices[mxRecord] || 'Unknown';
 
+    // For debugging: return the resolved MX records along with the service provider
     return {
       statusCode: 200,
-      body: JSON.stringify({ serviceProvider }),
+      body: JSON.stringify({ serviceProvider, resolvedMX: addresses }),
       headers: {
         'Content-Type': 'application/json',
       },
     };
   } catch (error) {
-    return { statusCode: 500, body: 'Server Error' };
+    console.error("Error resolving MX records:", error);
+    return { statusCode: 500, body: JSON.stringify({ error: "Error resolving MX records" }) };
   }
 };
+
