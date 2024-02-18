@@ -44,6 +44,8 @@ body {
 }
 
 #logo {
-    margin-top: 20px;
     display: none; /* Only show when a provider is identified */
+    max-width: 100px; /* Adjust the width as needed */
+    max-height: 100px; /* Adjust the height as needed */
+    margin-top: 20px;
 }
