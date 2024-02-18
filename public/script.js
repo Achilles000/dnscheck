@@ -17,49 +17,40 @@ document.getElementById('lookupBtn').addEventListener('click', async function() 
     const resultDiv = document.getElementById('result');
     const logoImg = document.getElementById('logo');
 
+    resultDiv.textContent = `Mail service provider: ${data.serviceProvider}`;
     if (data.serviceProvider && data.serviceProvider !== "Unknown") {
-        resultDiv.textContent = `Mail service provider: ${data.serviceProvider}`;
-        logoImg.style.display = 'block';
-
-        // Display logo based on the service provider
-switch(data.serviceProvider) {
-    case 'Google':
-        logoImg.src = 'path/to/google-logo.png'; // Update path
-        break;
-    case 'Outlook':
-        logoImg.src = 'path/to/microsoft-logo.png'; // Path to Microsoft logo
-        break;
-    case 'Apple':
-        logoImg.src = 'path/to/apple-logo.png'; // Update path
-        break;
-    // Add more cases as needed
-    default:
-        logoImg.style.display = 'none'; // Hide logo if not available
-}
-logoImg.style.display = 'block'; // Ensure this is outside the switch to display the logo
+        // Set the logo based on the service provider
+        switch(data.serviceProvider) {
+            case 'Google':
+                logoImg.src = 'path/to/google-logo.png'; // Ensure the correct path to your logo
+                break;
+            case 'Outlook':
+                logoImg.src = 'path/to/microsoft-logo.png'; // Ensure the correct path to your Microsoft logo
+                break;
+            case 'Apple':
+                logoImg.src = 'path/to/apple-logo.png'; // Ensure the correct path to your logo
+                break;
+            // Add more cases as needed
+            default:
+                logoImg.style.display = 'none'; // Hide logo if not available
+                break;
         }
+        logoImg.style.display = 'block';
+        logoImg.style.maxWidth = '100px'; // Control the size of the logo
+        logoImg.style.maxHeight = '100px';
 
         // Trigger confetti
-        window.confetti({
-            particleCount: 100,
-            spread: 70,
-            origin: { y: 0.6 }
-        });
+        if (typeof window.confetti === "function") {
+            window.confetti({
+                particleCount: 100,
+                spread: 70,
+                origin: { y: 0.6 }
+            });
+        } else {
+            console.error("Confetti function not found.");
+        }
     } else {
         resultDiv.textContent = 'Mail service provider: Unknown';
         logoImg.style.display = 'none';
     }
 });
-
-if (data.serviceProvider && data.serviceProvider !== "Unknown") {
-    // Your existing logic to display provider name and logo
-
-    // Trigger confetti
-    window.confetti({
-        particleCount: 100,
-        spread: 70,
-        origin: { y: 0.6 }
-    });
-} else {
-    // Handle 'Unknown' provider case
-}
