@@ -22,19 +22,21 @@ document.getElementById('lookupBtn').addEventListener('click', async function() 
         logoImg.style.display = 'block';
 
         // Display logo based on the service provider
-        switch(data.serviceProvider) {
-            case 'Google':
-                logoImg.src = 'path/to/google-logo.png'; // Update path
-                break;
-            case 'Outlook':
-                logoImg.src = 'path/to/outlook-logo.png'; // Update path
-                break;
-            case 'Apple':
-                logoImg.src = 'path/to/apple-logo.png'; // Update path
-                break;
-            // Add more cases as needed
-            default:
-                logoImg.style.display = 'none'; // Hide logo if not available
+switch(data.serviceProvider) {
+    case 'Google':
+        logoImg.src = 'path/to/google-logo.png'; // Update path
+        break;
+    case 'Outlook':
+        logoImg.src = 'path/to/microsoft-logo.png'; // Path to Microsoft logo
+        break;
+    case 'Apple':
+        logoImg.src = 'path/to/apple-logo.png'; // Update path
+        break;
+    // Add more cases as needed
+    default:
+        logoImg.style.display = 'none'; // Hide logo if not available
+}
+logoImg.style.display = 'block'; // Ensure this is outside the switch to display the logo
         }
 
         // Trigger confetti
