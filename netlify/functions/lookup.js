@@ -8,6 +8,7 @@ const mailServices = {
   'alt4.aspmx.l.google.com.': 'Google',
   // Add entries for other providers like Outlook, Yahoo, etc.
   'mail.protection.outlook.com.': 'Outlook',
+  'mx-in-hfd.apple.com.': 'Apple',
   // ... more providers
 
 };
