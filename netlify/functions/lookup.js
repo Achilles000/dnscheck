@@ -9,7 +9,6 @@ const mailServices = {
   // Add entries for other providers like Outlook, Yahoo, etc.
   'mail.protection.outlook.com.': 'Outlook',
   // ... more providers
-};
 
 };
 
