@@ -3,7 +3,14 @@ const dns = require('dns').promises;
 const mailServices = {
   'aspmx.l.google.com.': 'Google',
   'alt1.aspmx.l.google.com.': 'Google',
-  // Add other known mail service provider records
+  'alt2.aspmx.l.google.com.': 'Google',
+  'alt3.aspmx.l.google.com.': 'Google',
+  'alt4.aspmx.l.google.com.': 'Google',
+  // Add entries for other providers like Outlook, Yahoo, etc.
+  'mail.protection.outlook.com.': 'Outlook',
+  // ... more providers
+};
+
 };
 
 exports.handler = async function(event, context) {
