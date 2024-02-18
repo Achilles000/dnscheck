@@ -8,19 +8,26 @@ exports.handler = async function(event, context) {
     try {
         const { domain } = JSON.parse(event.body);
         const addresses = await dns.resolveMx(domain);
-        console.log("Resolved addresses:", addresses); // Log resolved addresses for debugging
+        console.log("Resolved addresses:", addresses); // Useful for debugging
 
         let serviceProvider = 'Unknown';
-        // Generalized matching logic to handle various mail providers
+
+        // Check each MX record against known patterns
         for (const record of addresses) {
             const exchange = record.exchange.toLowerCase();
-            if (exchange.endsWith('google.com.') || exchange.endsWith('googlemail.com.')) {
+
+            // Match Google MX records
+            if (exchange.includes('google.com') || exchange.includes('googlemail.com')) {
                 serviceProvider = 'Google';
                 break;
-            } else if (exchange.includes('protection.outlook.com')) {
+            }
+            // Match Outlook MX records
+            else if (exchange.includes('protection.outlook.com')) {
                 serviceProvider = 'Outlook';
                 break;
-            } else if (exchange.endsWith('apple.com.')) {
+            }
+            // Match Apple MX records (assuming 'apple.com' is a placeholder for actual Apple MX patterns)
+            else if (exchange.includes('apple.com')) {
                 serviceProvider = 'Apple';
                 break;
             }
