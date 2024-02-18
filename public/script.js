@@ -50,3 +50,16 @@ logoImg.style.display = 'block'; // Ensure this is outside the switch to display
         logoImg.style.display = 'none';
     }
 });
+
+if (data.serviceProvider && data.serviceProvider !== "Unknown") {
+    // Your existing logic to display provider name and logo
+
+    // Trigger confetti
+    window.confetti({
+        particleCount: 100,
+        spread: 70,
+        origin: { y: 0.6 }
+    });
+} else {
+    // Handle 'Unknown' provider case
+}
