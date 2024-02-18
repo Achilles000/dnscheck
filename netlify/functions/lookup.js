@@ -9,6 +9,10 @@ const mailServices = {
   // Add entries for other providers like Outlook, Yahoo, etc.
   'mail.protection.outlook.com.': 'Outlook',
   'mx-in-hfd.apple.com.': 'Apple',
+  'mx-in-vib.apple.com': 'Apple',
+  'mx-in.g.apple.com': 'Apple',
+  'mx-in-mdn.apple.com': 'Apple',
+  'mx-in-rno.apple.com': 'Apple',
   // ... more providers
 
 };
