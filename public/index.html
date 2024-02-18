@@ -1,61 +1,70 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mail Service Lookup</title>
-<style>
-  body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
-    text-align: center;
-    padding: 50px;
-  }
-  #domainInput {
-    font-size: 16px;
-    padding: 10px;
-    margin-right: 10px;
-  }
-  #lookupBtn {
-    padding: 10px 20px;
-    font-size: 16px;
-    cursor: pointer;
-  }
-  #result {
-    margin-top: 20px;
-    font-size: 20px;
-  }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mail Service Provider Lookup</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/@canvas-confetti@1.4.0/dist/confetti.browser.min.js"></script>
 </head>
 <body>
-  <h1>Mail Service Lookup Tool</h1>
-  <input type="text" id="domainInput" placeholder="Enter domain name">
-  <button id="lookupBtn">Lookup</button>
-  <div id="result"></div>
+    <div id="instructions">Please enter the domain name you want to check to see which mail service provider is used.</div>
+    <input type="text" id="domainInput" placeholder="Enter domain name">
+    <button id="lookupBtn">Lookup</button>
+    <div id="result"></div>
+    <img id="logo" src="" alt="" style="display:none;">
 
-  <script>
-    document.getElementById('lookupBtn').addEventListener('click', function() {
-      var domainName = document.getElementById('domainInput').value.trim();
-      if (domainName) {
-        fetch('/.netlify/functions/lookup', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ domain: domainName }),
-        })
-        .then(response => response.json())
-        .then(data => {
-          document.getElementById('result').textContent = 'Mail service provider: ' + (data.serviceProvider || 'Not found');
-        })
-        .catch((error) => {
-          console.error('Error:', error);
-          document.getElementById('result').textContent = 'Error: Could not perform lookup.';
+    <script>
+        document.getElementById('lookupBtn').addEventListener('click', async function() {
+            const domainName = document.getElementById('domainInput').value;
+            if (!domainName) {
+                alert("Please enter a domain name.");
+                return;
+            }
+
+            const response = await fetch('/.netlify/functions/lookup', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ domain: domainName }),
+            });
+            const data = await response.json();
+
+            const resultDiv = document.getElementById('result');
+            const logoImg = document.getElementById('logo');
+
+            if (data.serviceProvider && data.serviceProvider !== "Unknown") {
+                resultDiv.textContent = `Mail service provider: ${data.serviceProvider}`;
+                logoImg.style.display = 'block';
+
+                // Display logo based on the service provider
+                switch(data.serviceProvider) {
+                    case 'Google':
+                        logoImg.src = 'images/google.png'; // Ensure the path is correct
+                        break;
+                    case 'Outlook':
+                        logoImg.src = 'images/outlook.png'; // Ensure the path is correct
+                        break;
+                    case 'Apple':
+                        logoImg.src = 'images/apple.png'; // Ensure the path is correct
+                        break;
+                    // Add more cases as needed
+                    default:
+                        logoImg.style.display = 'none'; // Hide logo if not available
+                }
+
+                // Trigger confetti
+                window.confetti({
+                    particleCount: 100,
+                    spread: 70,
+                    origin: { y: 0.6 }
+                });
+            } else {
+                resultDiv.textContent = 'Mail service provider: Unknown';
+                logoImg.style.display = 'none';
+            }
         });
-      } else {
-        document.getElementById('result').textContent = 'Please enter a domain name.';
-      }
-    });
-  </script>
+    </script>
 </body>
 </html>
